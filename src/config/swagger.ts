@@ -11,13 +11,26 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'API-Rest Adoptme',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description: 'Ingrese el token JWT en el formato: Bearer <token>'
+        }
+      }
+    },
+    security: [{
+      bearerAuth: []
+    }],
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'http://localhost:8080',
         description: 'Testing',
       },
       {
-        url: 'http://localhost:3001',
+        url: 'http://localhost:8080',
         description: 'Desarrollo',
       },
       {
@@ -26,12 +39,11 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [path.resolve('src/docs/**/*.yaml')], // admite carpetas anidadas
+  apis: [path.resolve('src/docs/**/*.yaml')],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
-// Exportás un middleware listo para usar
 export default (app: express.Application) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };

@@ -21,7 +21,7 @@ winston.addColors(personalizedLevels.colors);
 export const logger = winston.createLogger({
   levels: personalizedLevels.levels,
   format: winston.format.combine(
-    winston.format.timestamp(),
+    winston.format.timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
     winston.format.errors({ stack: true }),
     winston.format.splat(),
     winston.format.json(),

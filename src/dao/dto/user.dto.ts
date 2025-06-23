@@ -3,7 +3,7 @@ import { UserModel } from '../../interfaces/interfaces';
 import { DocumentModel } from '../../interfaces/interfaces';
 
 export default class UserDTO {
-  last_connection?: Date;
+  last_connection?: string;
   first_name: string;
   last_name: string;
   email: string;
