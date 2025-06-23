@@ -1,28 +1,28 @@
-import UserMongo from '../dao/mongo/user.mongo';
 import { UserModel } from '../interfaces/interfaces';
+import UserMongo from '../dao/mongo/user.mongo';
 
 const userMongo = new UserMongo();
 
 export default class UserRepository {
   constructor() {}
 
-  async createUser(user: UserModel) {
+  createUser = async (user: UserModel) => {
     try {
-      const newUser = await userMongo.create(user);
-      return newUser;
+      let result = await userMongo.create(user);
+      return result;
     } catch (error) {
       throw error;
     }
-  }
+  };
 
-  async createManyUsers(users: UserModel[]) {
+  createManyUsers = async (users: UserModel[]) => {
     try {
       const newUsers = await userMongo.createMany(users);
       return newUsers;
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   async getAllUsers() {
     try {
@@ -42,21 +42,30 @@ export default class UserRepository {
     }
   }
 
-  async updateOneUser(id: string, user: UserModel) {
+  getByEmail = async (email: string) => {
+    try {
+      const user = await userMongo.getByEmail(email);
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateOneUser = async (id: string, user: UserModel) => {
     try {
       const updatedUser = await userMongo.update(id, user);
       return updatedUser;
     } catch (error) {
       throw error;
     }
-  }
+  };
 
-  async deleteOneUser(id: string) {
+  deleteOneUser = async (id: string) => {
     try {
       const deletedUser = await userMongo.delete(id);
       return deletedUser;
     } catch (error) {
       throw error;
     }
-  }
+  };
 }

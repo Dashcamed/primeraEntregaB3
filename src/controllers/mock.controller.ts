@@ -22,7 +22,7 @@ export const getPetMock = async (req: Request, res: Response) => {
     res.status(201).send({ status: 'success', payload: pets });
     res.logger.info({ 'Mascotas generadas exitosamente': pets });
   } catch (error) {
-    console.log(error);
+    req.logger.error({ error });
     res
       .status(400)
       .send({ status: 'error', error: 'Error al generar mascotas' });

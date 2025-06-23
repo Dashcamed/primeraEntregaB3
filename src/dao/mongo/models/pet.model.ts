@@ -8,6 +8,15 @@ const schema = new mongoose.Schema({
   birthDate: { type: Date, required: true },
   adopted: { type: Boolean, default: false },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'users', default: null },
+  image: {
+    type: [
+      {
+        name: { type: String, required: true },
+        reference: { type: String, required: true },
+      },
+    ],
+    default: [],
+  },
 });
 
 const petModel = mongoose.model(collection, schema);

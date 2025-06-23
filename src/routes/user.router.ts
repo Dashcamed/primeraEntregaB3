@@ -1,5 +1,7 @@
+import { getAllUsers, addDocument } from '../controllers/user.controller';
+import upload from '../config/multer';
 import Router from './class/route';
-import { getAllUsers } from '../controllers/user.controller';
+import { Request, Response } from 'express';
 
 export default class UserRouter extends Router {
   constructor() {
@@ -8,6 +10,17 @@ export default class UserRouter extends Router {
   }
 
   init() {
-    this.get('/all', getAllUsers);
+    this.get('/all', ['PUBLIC'], getAllUsers);
+
+    this.post(
+      '/:uid/documents',
+      ['USER', 'ADMIN'],
+      upload.single('document'),
+      addDocument,
+    );
+
+    this.get('/current', ['USER', 'ADMIN'], (req: Request, res: Response) => {
+      res.send({ status: 'success', payload: req.user });
+    });
   }
 }

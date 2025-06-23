@@ -30,6 +30,7 @@ export default class MockingServices {
         birthDate: faker.date.past(),
         adopted: faker.datatype.boolean(),
         owner: null,
+        image: [{ name: faker.image.url(), reference: faker.image.url() }],
       };
       pets.push(pet);
     }
