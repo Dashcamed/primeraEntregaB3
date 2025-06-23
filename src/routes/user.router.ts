@@ -10,7 +10,7 @@ export default class UserRouter extends Router {
   }
 
   init() {
-    this.get('/all', ['PUBLIC'], getAllUsers);
+    this.get('/all', ['ADMIN'], getAllUsers);
 
     this.post(
       '/:uid/documents',

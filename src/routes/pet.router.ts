@@ -10,8 +10,13 @@ export default class PetRouter extends Router {
   }
 
   init() {
-    this.get('/all', getAllPets);
+    this.get('/all', ['PUBLIC'], getAllPets);
 
-    this.router.post('/:uid/imagePet', upload.single('pet'), addImage as any);
+    this.post(
+      '/:uid/imagePet',
+      ['USER', 'ADMIN'],
+      upload.single('pet'),
+      addImage,
+    );
   }
 }

@@ -12,8 +12,8 @@ export default class MockRouter extends Router {
   }
 
   init() {
-    this.get('/mockingPets', getPetMock);
-    this.get('/mockingUsers', getUserMock);
-    this.post('/generateData', generateData);
+    this.get('/mockingPets', ['PUBLIC'], getPetMock);
+    this.get('/mockingUsers', ['PUBLIC'], getUserMock);
+    this.post('/generateData', ['ADMIN'], generateData);
   }
 }
