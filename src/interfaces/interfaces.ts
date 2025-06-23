@@ -4,7 +4,7 @@ import { Request } from 'express';
 export interface PetModel {
   name: string;
   specie: string;
-  birthDate: Date;
+  birthDate: string;
   adopted: boolean;
   owner: string | null;
   image: {
@@ -14,7 +14,7 @@ export interface PetModel {
 }
 
 export interface UserModel {
-  last_connection?: Date;
+  last_connection?: string;
   first_name: string;
   last_name: string;
   email: string;

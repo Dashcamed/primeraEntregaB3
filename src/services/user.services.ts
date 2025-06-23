@@ -1,6 +1,5 @@
 import UserRepository from '../repository/user.repository';
 import { UserModel } from '../interfaces/interfaces';
-import { logger } from '../config/logger';
 
 const userRepository = new UserRepository();
 
@@ -10,13 +9,11 @@ export default class UserService {
   createUser = async (user: UserModel) => {
     try {
       if (!user) {
-        logger.error('User is required');
         throw new Error('User is required');
       }
       let result = await userRepository.createUser(user);
       return result;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -26,7 +23,6 @@ export default class UserService {
       const newUsers = await userRepository.createManyUsers(users);
       return newUsers;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -36,7 +32,6 @@ export default class UserService {
       const users = await userRepository.getAllUsers();
       return users;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -46,7 +41,6 @@ export default class UserService {
       const user = await userRepository.getUserById(id);
       return user;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -56,7 +50,6 @@ export default class UserService {
       const user = await userRepository.getByEmail(email);
       return user;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -66,7 +59,6 @@ export default class UserService {
       const updatedUser = await userRepository.updateOneUser(id, user);
       return updatedUser;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };
@@ -76,7 +68,6 @@ export default class UserService {
       const deletedUser = await userRepository.deleteOneUser(id);
       return deletedUser;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   };

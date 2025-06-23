@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 import { generateHash } from '../../../utils/utils';
-
+import moment from 'moment';
 const collection = 'users';
 
 const schema = new mongoose.Schema({
-  last_connection: { type: Date, default: Date.now },
+  last_connection: {
+    type: String,
+    default: moment().format('DD-MM-YYYY HH:mm:ss'),
+  },
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   email: { type: String, required: true, unique: true },

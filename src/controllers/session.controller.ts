@@ -11,7 +11,6 @@ export const registerUser = async (req: Request, res: Response) => {
     const result = await sessionServices.registerUser(user);
     res.status(201).json({ status: 'success', payload: result });
   } catch (error) {
-    req.logger.error(error);
     res
       .status(400)
       .json({ status: 'error', error: 'Error al registrar usuario' });
@@ -26,10 +25,11 @@ export const login = async (req: Request, res: Response) => {
         email: user.email,
         role: user.role,
         userId: user._id,
+        last_connection: user.last_connection,
       },
       config.JWT_PRIVATE_KEY,
       {
-        expiresIn: Number(config.JWT_EXPIRES_IN),
+        expiresIn: config.JWT_EXPIRES_IN,
       },
     );
     res
@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'prod',
         sameSite: 'lax',
-        maxAge: Number(config.JWT_EXPIRES_IN),
+        maxAge: config.JWT_EXPIRES_IN,
         signed: true,
       })
       .status(200)
@@ -47,10 +47,10 @@ export const login = async (req: Request, res: Response) => {
           email: user.email,
           role: user.role,
           userId: user._id,
+          last_connection: user.last_connection,
         },
       });
   } catch (error) {
-    req.logger.error(error);
     res
       .status(400)
       .json({ error: error instanceof Error ? error.message : String(error) });
@@ -62,6 +62,8 @@ export const logout = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'prod',
     sameSite: 'lax',
+    maxAge: config.JWT_EXPIRES_IN,
+    signed: true,
   });
   res.status(200).json({ message: 'Logout exitoso' });
 };

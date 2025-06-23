@@ -22,7 +22,6 @@ export default class PetRepository {
       const newPets = await petMongo.createMany(pets);
       return newPets;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   }
@@ -32,7 +31,6 @@ export default class PetRepository {
       const pets = await petMongo.getAll();
       return pets;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   }
@@ -42,7 +40,6 @@ export default class PetRepository {
       const pet = await petMongo.getById(id);
       return pet;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   }
@@ -52,7 +49,6 @@ export default class PetRepository {
       const updatedPet = await petMongo.update(id, pet);
       return updatedPet;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   }
@@ -62,7 +58,6 @@ export default class PetRepository {
       const deletedPet = await petMongo.delete(id);
       return deletedPet;
     } catch (error) {
-      logger.error(error);
       throw error;
     }
   }

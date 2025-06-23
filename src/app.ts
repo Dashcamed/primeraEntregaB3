@@ -7,6 +7,7 @@ import PetRouter from './routes/pet.router';
 import SessionRouter from './routes/session.router';
 import { middLogg } from './config/logger';
 import { __dirname } from './utils/utils';
+import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import initializePassport from './config/passport.config';
 import { enviroment } from './config/config';
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(middLogg);
 app.use(morganLogger);
+app.use(cookieParser(config.COOKIE_SIGN));
 
 //Swagger
 swaggerSetup(app);
