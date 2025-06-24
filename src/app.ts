@@ -1,16 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import config from './config/config';
 import MockRouter from './routes/mock.router';
 import UserRouter from './routes/user.router';
 import PetRouter from './routes/pet.router';
 import SessionRouter from './routes/session.router';
 import { middLogg } from './config/logger';
-import { __dirname } from './utils/utils';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import initializePassport from './config/passport.config';
-import { enviroment } from './config/config';
+import config from './config/config';
 import cors from 'cors';
 import { logger } from './config/logger';
 import morgan from 'morgan';
@@ -54,8 +52,8 @@ app.use(
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
-        (enviroment === 'dev' && allowedDevOrigins.includes(origin)) ||
-        (enviroment === 'prod' && origin === config.FRONTEND_DEV_URL)
+        (config.mode === 'dev' && allowedDevOrigins.includes(origin)) ||
+        (config.mode === 'prod' && origin === config.FRONTEND_DEV_URL)
       ) {
         callback(null, true);
       } else {

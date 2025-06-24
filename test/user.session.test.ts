@@ -1,68 +1,53 @@
-import { expect } from 'chai';
-import { describe, it, before, after } from 'mocha';
-import supertest from 'supertest';
-import mongoose from 'mongoose';
+import request from 'supertest';
 import app from '../src/app';
+import mongoose from 'mongoose';
+import { before, after } from 'node:test';
 
-interface User {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-}
-
-// Set mongoose to use strict queries
+//* Para mantener la validación estricta de consultas
 mongoose.set('strictQuery', true);
 
-const mongoUrlTest = 'mongodb://localhost:27017/mocksGeneratorTest';
+// URL de conexión a la base de datos de testing
+const MONGO_URI = 'mongodb://localhost:27017/mocksGeneratorTest';
 
-// Explicitly type the request object to avoid TypeScript errors
-const request = supertest(app) as any;
+const mockUser = {
+  first_name: 'Usuario de prueba 2',
+  last_name: 'Apellido de prueba 2',
+  email: 'correodeprueba2@gmail.com',
+  password: '123456',
+};
+let cookie = null;
 
-describe('Testing User', function () {
-  this.timeout(6000);
-
-  // Define mockUser and cookie on the context
-  let mockUser: User;
-  let cookie: string;
-
+describe('Registro de usuario', () => {
   before(async function () {
-    try {
-      await mongoose.connect(mongoUrlTest);
-      console.log('Connected to MongoDB');
-
-      mockUser = {
-        first_name: 'Camila',
-        last_name: 'Garcia',
-        email: 'camila@gmail.com',
-        password: '123456',
-      };
-    } catch (error) {
-      console.error('Error connecting to MongoDB', error);
-      throw error;
-    }
+    // Conexión a MongoDB antes de correr los tests
+    await mongoose
+      .connect(MONGO_URI)
+      .then(() => {
+        console.log('Connected to MongoDB for testing');
+      })
+      .catch((err) => {
+        console.error('Error connecting to MongoDB for testing:', err);
+      });
+    // Usuario de prueba
   });
 
   after(async function () {
-    try {
-      if (mongoose.connection.db) {
-        await mongoose.connection.collection('users').deleteMany({
-          email: mockUser.email,
-        });
-      }
-    } catch (error) {
-      console.error('Error cleaning up test data', error);
-    } finally {
-      if (mongoose.connection.readyState === 1) {
-        await mongoose.connection.close();
-      }
-    }
+    // Limpia la colección de usuarios después de correr los tests
+    await mongoose.connection.collection('users').deleteMany({
+      email: this.mockUser.email,
+    });
+
+    // Cierra la conexión a MongoDB después de correr todos los tests
+    await mongoose.connection.close();
   });
 
-  it('Register a new user', async function () {
-    const { statusCode } = await request
-      .post('/api/user/register')
+  it('debería registrar un usuario correctamente', async () => {
+    const response = await request(app)
+      .post('/api/auth/register')
       .send(mockUser);
-    expect(statusCode).to.equal(201);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('status', 'success');
+    expect(response.body.payload).toHaveProperty('email', mockUser.email);
   });
 });

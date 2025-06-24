@@ -5,3 +5,7 @@ Dockerfile
 kube-mock.yaml
 package-lock.json
 public
+coverage
+test
+jest.config.js
+src/types

@@ -10,5 +10,5 @@
     "typeRoots": ["./node_modules/@types", "./src/types"] // Ruta de los tipos personalizados
   },
   "include": ["src/**/*"], // Incluir archivos
-  "exclude": ["node_modules", "dist"] // Excluir archivos
+  "exclude": ["node_modules", "dist", "test", "jest.config.cjs", "./coverage"] // Excluir archivos
 }
