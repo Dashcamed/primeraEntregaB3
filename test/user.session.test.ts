@@ -2,21 +2,29 @@ import { expect } from 'chai';
 import { describe, it, before, after } from 'mocha';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import app from '../dist/server.mjs';
+import app from '../src/app';
+
+interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+}
 
 // Set mongoose to use strict queries
 mongoose.set('strictQuery', true);
 
 const mongoUrlTest = 'mongodb://localhost:27017/mocksGeneratorTest';
 
-const request = supertest(app);
+// Explicitly type the request object to avoid TypeScript errors
+const request = supertest(app) as any;
 
 describe('Testing User', function () {
   this.timeout(6000);
 
   // Define mockUser and cookie on the context
-  let mockUser;
-  let cookie;
+  let mockUser: User;
+  let cookie: string;
 
   before(async function () {
     try {
