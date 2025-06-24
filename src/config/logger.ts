@@ -1,5 +1,17 @@
 import winston from 'winston';
 import { Request, Response, NextFunction } from 'express';
+import { Logger } from 'winston';
+
+declare global {
+  namespace Express {
+    interface Request {
+      logger: Logger;
+    }
+    interface Response {
+      logger: Logger;
+    }
+  }
+}
 
 const personalizedLevels = {
   levels: {

@@ -27,7 +27,7 @@ export default class MockingServices {
       const pet: PetModel = {
         name: faker.person.firstName(),
         specie: faker.animal.type(),
-        birthDate: faker.date.past(),
+        birthDate: faker.date.past().toISOString(),
         adopted: faker.datatype.boolean(),
         owner: null,
         image: [{ name: faker.image.url(), reference: faker.image.url() }],
